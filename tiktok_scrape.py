@@ -27,10 +27,10 @@ with TikTokAPI() as api:
 # Create a DataFrame
 data = {
     'Challenge_ID': challenge_name,
-    'Challenge_Title': challenge_titles,
-    'Video_ID': video_ids,
-    'Video_Description': video_descriptions,
-    'Comment_Text': comment_texts
+    'Challenge_Title': challenge.title,
+    'Video_ID': video.id,
+    'Video_Description': video.desc,
+    'Comment_Text': comment.text
 }
 
 df = pd.DataFrame(data)
