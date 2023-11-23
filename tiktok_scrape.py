@@ -26,7 +26,7 @@ with TikTokAPI() as api:
 
 # Create a DataFrame
 data = {
-    'Challenge_ID': challenge_ids,
+    'Challenge_ID': challenge_name,
     'Challenge_Title': challenge_titles,
     'Video_ID': video_ids,
     'Video_Description': video_descriptions,
@@ -37,3 +37,4 @@ df = pd.DataFrame(data)
 
 # Display the DataFrame
 print(df)
+
