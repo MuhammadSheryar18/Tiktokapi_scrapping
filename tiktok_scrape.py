@@ -1,8 +1,15 @@
 from tiktokapipy.api import TikTokAPI
 import pandas as pd
-from playwright.sync_api import playwright  # Add this import
+from playwright.sync_api import playwright
 
 import time
+
+# Initialize empty lists to store data
+challenge_ids = []
+challenge_titles = []
+video_ids = []
+video_descriptions = []
+comment_texts = []
 
 retries = 3
 for attempt in range(retries):
@@ -28,8 +35,17 @@ for attempt in range(retries):
                 # Fetch comments for the video
                 comments = video.comments
                 print(f"Comments for Video {video.id}:")
+
                 for comment in comments:
                     print(comment.text)
+
+                    # Append data to lists
+                    challenge_ids.append(challenge_name)
+                    challenge_titles.append(challenge.title)
+                    video_ids.append(video.id)
+                    video_descriptions.append(video.desc)
+                    comment_texts.append(comment.text)
+
                 break  # If successful, exit the loop
     except playwright._impl._errors.TimeoutError:
         if attempt < retries - 1:
@@ -41,16 +57,20 @@ for attempt in range(retries):
 
 # Create a DataFrame
 data = {
-    'Challenge_ID': [challenge_name],
-    'Challenge_Title': [challenge.title],
-    'Video_ID': [video.id],
-    'Video_Description': [video.desc],
-    'Comment_Text': [comment.text]
+    'Challenge_ID': challenge_ids,
+    'Challenge_Title': challenge_titles,
+    'Video_ID': video_ids,
+    'Video_Description': video_descriptions,
+    'Comment_Text': comment_texts
 }
 
 df = pd.DataFrame(data)
 
-print(df)
+# Print lengths
+print(f"Number of Challenges: {len(challenge_ids)}")
+print(f"Number of Videos: {len(video_ids)}")
+print(f"Number of Comments: {len(comment_texts)}")
 
-
+# Print the DataFrame
+print(df.to_string())
 
